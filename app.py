@@ -1,11 +1,9 @@
-import pika, os, urlparse
+import pika, os, urlparse, logging
+logging.basicConfig()
 
 # Parse CLODUAMQP_URL (fallback to localhost)
-url_str = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost//')
-url = urlparse.urlparse(url_str)
-params = pika.ConnectionParameters(host=url.hostname, virtual_host=url.path[1:],
-    credentials=pika.PlainCredentials(url.username, url.password))
-
+url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost:5672/%2f')
+params = pika.URLParameters(url)
 connection = pika.BlockingConnection(params) # Connect to CloudAMQP
 channel = connection.channel() # start a channel
 channel.queue_declare(queue='hello') # Declare a queue
