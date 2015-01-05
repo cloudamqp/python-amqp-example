@@ -1,4 +1,4 @@
-import pika, os, urlparse, logging
+import pika, os, logging
 logging.basicConfig()
 
 # Parse CLODUAMQP_URL (fallback to localhost)
