@@ -10,7 +10,7 @@ channel = connection.channel() # start a channel
 channel.queue_declare(queue='hello') # Declare a queue
 # send a message
 channel.basic_publish(exchange='', routing_key='hello', body='Hello CloudAMQP!')
-print " [x] Sent 'Hello World!'"
+print " [x] Sent 'Hello CloudAMQP!'"
 
 # create a function which is called on incoming messages
 def callback(ch, method, properties, body):
