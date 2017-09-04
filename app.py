@@ -1,27 +1,25 @@
-import pika, os, logging
-logging.basicConfig()
+import pika, os
 
-# Parse CLODUAMQP_URL (fallback to localhost)
+# Access the CLODUAMQP_URL environment variable and parse it (fallback to localhost)
 url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost:5672/%2f')
 params = pika.URLParameters(url)
-params.socket_timeout = 5
-connection = pika.BlockingConnection(params) # Connect to CloudAMQP
+connection = pika.BlockingConnection(params)
 channel = connection.channel() # start a channel
 channel.queue_declare(queue='hello') # Declare a queue
-# send a message
-channel.basic_publish(exchange='', routing_key='hello', body='Hello CloudAMQP!')
-print " [x] Sent 'Hello CloudAMQP!'"
+channel.basic_publish(exchange='',
+                  routing_key='hello',
+                  body='Hello CloudAMQP!')
 
-# create a function which is called on incoming messages
+print(" [x] Sent 'Hello World!'")
+
 def callback(ch, method, properties, body):
-  print " [x] Received %r" % (body)
+  print(" [x] Received %r" % body)
 
-# set up subscription on the queue
 channel.basic_consume(callback,
-    queue='hello',
-    no_ack=True)
+                      queue='hello',
+                      no_ack=True)
 
-channel.start_consuming() # start consuming (blocks)
-
+print(' [*] Waiting for messages:')
+channel.start_consuming()
 connection.close()
 
