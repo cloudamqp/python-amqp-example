@@ -1,6 +1,6 @@
 import pika, os
 
-# Access the CLODUAMQP_URL environment variable and parse it (fallback to localhost)
+# Access the CLOUDAMQP_URL environment variable and parse it (fallback to localhost)
 url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost:5672/%2f')
 params = pika.URLParameters(url)
 connection = pika.BlockingConnection(params)
@@ -10,7 +10,7 @@ channel.basic_publish(exchange='',
                   routing_key='hello',
                   body='Hello CloudAMQP!')
 
-print(" [x] Sent 'Hello World!'")
+print(" [x] Sent 'Hello CloudAMQP!'")
 
 def callback(ch, method, properties, body):
   print(" [x] Received %r" % body)
