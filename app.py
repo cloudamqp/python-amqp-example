@@ -1,5 +1,10 @@
-import pika, os
-  
+import pika, os, signal, sys
+
+def signal_handler(signal, frame):
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+
 # Access the CLODUAMQP_URL environment variable and parse it (fallback to localhost)
 url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost:5672/%2f')
 params = pika.URLParameters(url)
@@ -22,4 +27,3 @@ channel.basic_consume('hello',
 print(' [*] Waiting for messages:')
 channel.start_consuming()
 connection.close()
-
