@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    services:
+      lavinmq:
+        image: cloudamqp/lavinmq:latest
+        ports:
+          - 5672:5672
+          - 15672:15672
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: jdx/mise-action@v5
+
+      - name: Wait for LavinMQ
+        run: |
+          for _ in $(seq 60); do
+            curl -sf -u guest:guest http://localhost:15672/api/overview >/dev/null && exit 0
+            sleep 1
+          done
+          exit 1
+
+      - name: Test
+        run: |
+          pip install -r requirements-dev.txt
+          pytest
