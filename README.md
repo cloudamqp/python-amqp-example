@@ -1,3 +1,6 @@
-This project shows how to connect with [Pika](https://github.com/pika/pika) to CloudAMQP and both publish and subscribe messages.
+# python-amqp-example
 
-    $ pip install -r requirements.txt
+This repository is no longer in use and archived on Wed Oct 21 09:49:19 AM UTC 2026, last commit was 76047f7.
+
+Last working version is available in the [archive](https://github.com/cloudamqp/python-amqp-example/tree/archive) branch.
+
